@@ -216,3 +216,16 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Ignore large video test files
+assets/*.mov
+assets/*.mp4
+
+!assets/demo.gif
+!assets/.gitkeep
+
+data/raw/
+data/processed/
+*.pt
+*.onnx
+runs/

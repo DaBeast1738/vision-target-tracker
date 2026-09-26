@@ -1,15 +1,29 @@
 import cv2
 import os
+from pathlib import Path
 
-video_path = "desk_video.mov" 
-output_dir = "C:\Users\mThamilchelvan\Downloads\images"
+# Automatically resolves the project root (vision-target-tracker/)
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+
+# Video is located inside the 'assets' folder
+video_path = str(PROJECT_ROOT / "assets" / "desk_video2.mov")
+
+# Output directory: places extracted frames inside data/raw inside the project
+output_dir = str(PROJECT_ROOT / "data" / "raw")
 os.makedirs(output_dir, exist_ok=True)
 
 cap = cv2.VideoCapture(video_path)
-fps = cap.get(cv2.CAP_PROP_FPS)
 
-# Sample 2 to 3 frames per second of footage
-interval = max(int(fps / 2), 1)
+if not cap.isOpened():
+    print(f"Error: Could not open video at: {video_path}")
+    exit(1)
+
+fps = cap.get(cv2.CAP_PROP_FPS)
+if not fps or fps <= 0:
+    fps = 30.0
+
+# Sample 4 frames per second
+interval = max(int(fps / 4), 1)
 
 frame_idx = 0
 saved_count = 0
